@@ -40,18 +40,14 @@ public class RopeController : MonoBehaviour
         {
             if (isReachedTopBanner)
             {
-                Debug.Log("Top player WIN!");
-                GameResultsUI.Instance.resultsTitle.SetText("Top Player <br> WIN!");
+                GameResultsUI.Instance.resultsTitle.SetText("<color=#EF4D47>Top</color> Player <br> WIN!");
             }
             else
             {
-                Debug.Log("Bot player WIN!");
-                GameResultsUI.Instance.resultsTitle.SetText("Bot Player <br> WIN!");
+                GameResultsUI.Instance.resultsTitle.SetText("<color=#11A5F7>Bot</color> Player <br> WIN!");
             }
-
-            Debug.Log("GAME OVER!");
+            GameManager.Instance.gameOverWhistleSfxSource.Play();
             GameResultsUI.Instance.Enable();
-
             GameManager.Instance.IsGameOver = true;
         }
     }

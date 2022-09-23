@@ -40,13 +40,13 @@ public class GameConfigUI : MonoBehaviour
         {
             if (GameManager.SinglePlayerSide == SinglePlayerSide.TopSide)
             {
-                topClickController.isAI = true;
-                topClickController.StartAICoroutine();
+                botClickController.isAI = true;
+                botClickController.StartAICoroutine();
             }
             else
             {
-                botClickController.isAI = true;
-                botClickController.StartAICoroutine();
+                topClickController.isAI = true;
+                topClickController.StartAICoroutine();
             }
 
             DisableGameConfigAndStartTheGame();

@@ -11,6 +11,8 @@ public class ClickController : MonoBehaviour, IPointerDownHandler
     [SerializeField] private int pullForce;
     public bool isAI;
 
+    [Header("Click Effects: ")] 
+    [SerializeField] private AudioSource yellSfxSource;
     [SerializeField] private Transform yellParticlesParent;
     [SerializeField] private GameObject yellParticle;
 
@@ -28,7 +30,8 @@ public class ClickController : MonoBehaviour, IPointerDownHandler
         {
             yield return new WaitForSeconds( AIClickDelayDurationByDifficulty() );
             
-            PlayerYell();
+            YellSfx();
+            YellParticle();
             PullTheRope();
         }
     }
@@ -47,8 +50,9 @@ public class ClickController : MonoBehaviour, IPointerDownHandler
     public void OnPointerDown(PointerEventData pointerEventData)
     {
         if (isAI) return;
-        
-        PlayerYell();
+
+        YellSfx();
+        YellParticle();
         PullTheRope();
     }
     private void PullTheRope()
@@ -56,7 +60,7 @@ public class ClickController : MonoBehaviour, IPointerDownHandler
         RopeController.Instance.Position += pullForce;
     }
 
-    private void PlayerYell()
+    private void YellParticle()
     {
         var tempYellParticles = new List<SpriteRenderer>(yellParticlesList);
 
@@ -74,10 +78,14 @@ public class ClickController : MonoBehaviour, IPointerDownHandler
             tempYellParticles.RemoveAt(randomYellParticleIndex);
         }
     }
-
     private IEnumerator DisableRandomYell(SpriteRenderer thisRandomYell)
     {
         yield return new WaitForSeconds(0.5f);
         thisRandomYell.enabled = false;
+    }
+
+    private void YellSfx()
+    {
+        yellSfxSource.Play();
     }
 }

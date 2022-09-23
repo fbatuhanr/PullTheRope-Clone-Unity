@@ -15,7 +15,9 @@ public class GameManager : MonoBehaviour
     
     public bool IsGameStart { get; set; }
     public bool IsGameOver { get; set; }
-    
+
+    public AudioSource gameOverWhistleSfxSource;
+
     private void Awake()
     {
         Instance = this;
