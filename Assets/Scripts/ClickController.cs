@@ -1,12 +1,10 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Random = UnityEngine.Random;
 
-public class ClickController : MonoBehaviour, IPointerDownHandler
+public class ClickController : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] private int pullForce;
     public bool isAI;
@@ -21,6 +19,7 @@ public class ClickController : MonoBehaviour, IPointerDownHandler
     public void StartAICoroutine()
     {
         if (!isAI) return;
+        
         StartCoroutine(PullAI());
     }
 
@@ -30,9 +29,7 @@ public class ClickController : MonoBehaviour, IPointerDownHandler
         {
             yield return new WaitForSeconds( AIClickDelayDurationByDifficulty() );
             
-            YellSfx();
-            YellParticle();
-            PullTheRope();
+            HandlePull();
         }
     }
 
@@ -47,20 +44,27 @@ public class ClickController : MonoBehaviour, IPointerDownHandler
         }
     }
 
-    public void OnPointerDown(PointerEventData pointerEventData)
+    public void OnPointerClick(PointerEventData pointerEventData)
     {
-        if (isAI) return;
+        if (isAI || !GameManager.Instance.IsGameStart) return;
 
-        YellSfx();
-        YellParticle();
+        HandlePull();
+    }
+
+    private void HandlePull()
+    {
+        PlayerYellingSoundEffect();
+        PlayerYellingParticle();
         PullTheRope();
     }
+    
+    
     private void PullTheRope()
     {
         RopeController.Instance.Position += pullForce;
     }
 
-    private void YellParticle()
+    private void PlayerYellingParticle()
     {
         var tempYellParticles = new List<SpriteRenderer>(yellParticlesList);
 
@@ -84,7 +88,7 @@ public class ClickController : MonoBehaviour, IPointerDownHandler
         thisRandomYell.enabled = false;
     }
 
-    private void YellSfx()
+    private void PlayerYellingSoundEffect()
     {
         yellSfxSource.Play();
     }

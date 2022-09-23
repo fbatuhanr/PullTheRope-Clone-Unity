@@ -1,4 +1,3 @@
-using UnityEditor.Build;
 using UnityEngine;
 
 public class RopeController : MonoBehaviour

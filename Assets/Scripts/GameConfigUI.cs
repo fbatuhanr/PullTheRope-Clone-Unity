@@ -1,7 +1,5 @@
-using System;
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class GameConfigUI : MonoBehaviour
 {
@@ -24,7 +22,6 @@ public class GameConfigUI : MonoBehaviour
         Debug.Log($"Game Mode: {GameManager.GameMode}");
         Debug.Log($"Single Player Side: {GameManager.SinglePlayerSide}");
         Debug.Log($"Game Difficulty: {GameManager.GameDifficulty}");
-
 
         if (GameManager.GameMode == GameMode.TwoPlayer)
         {
