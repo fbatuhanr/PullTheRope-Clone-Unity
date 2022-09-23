@@ -8,10 +8,10 @@ public enum GameDifficulty { Easy=0, Medium=1, Hard=2 }
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    
-    public static GameMode? GameMode = null;
-    public static SinglePlayerSide? SinglePlayerSide = null;
-    public static GameDifficulty? GameDifficulty = null;
+
+    public static GameMode? GameMode;
+    public static SinglePlayerSide? SinglePlayerSide;
+    public static GameDifficulty? GameDifficulty;
     
     public bool IsGameStart { get; set; }
     public bool IsGameOver { get; set; }

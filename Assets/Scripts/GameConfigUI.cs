@@ -24,11 +24,17 @@ public class GameConfigUI : MonoBehaviour
         Debug.Log($"Game Mode: {GameManager.GameMode}");
         Debug.Log($"Single Player Side: {GameManager.SinglePlayerSide}");
         Debug.Log($"Game Difficulty: {GameManager.GameDifficulty}");
-        
+
+
+        if (GameManager.GameMode == GameMode.TwoPlayer)
+        {
+            DisableGameConfigAndStartTheGame();
+            return;
+        }
+
         if (GameManager.GameMode == null || GameManager.SinglePlayerSide == null || GameManager.GameDifficulty == null)
         {
-            if(GameManager.GameMode != GameMode.TwoPlayer) 
-                selectionsParent.DOScale(Vector3.one, 0.2f);
+            selectionsParent.DOScale(Vector3.one, 0.2f);
         }
         else
         {
