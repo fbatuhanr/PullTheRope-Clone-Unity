@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -9,7 +10,12 @@ public class ClickController : MonoBehaviour, IPointerDownHandler
 {
     [SerializeField] private int pullForce;
     public bool isAI;
-    
+
+    [SerializeField] private Transform yellParticlesParent;
+    [SerializeField] private GameObject yellParticle;
+
+    [SerializeField] private List<SpriteRenderer> yellParticlesList;
+
     public void StartAICoroutine()
     {
         if (!isAI) return;
@@ -21,6 +27,8 @@ public class ClickController : MonoBehaviour, IPointerDownHandler
         while (!GameManager.Instance.IsGameOver)
         {
             yield return new WaitForSeconds( AIClickDelayDurationByDifficulty() );
+            
+            PlayerYell();
             PullTheRope();
         }
     }
@@ -39,10 +47,37 @@ public class ClickController : MonoBehaviour, IPointerDownHandler
     public void OnPointerDown(PointerEventData pointerEventData)
     {
         if (isAI) return;
+        
+        PlayerYell();
         PullTheRope();
     }
     private void PullTheRope()
     {
         RopeController.Instance.Position += pullForce;
+    }
+
+    private void PlayerYell()
+    {
+        var tempYellParticles = new List<SpriteRenderer>(yellParticlesList);
+
+        foreach (var item in tempYellParticles) item.enabled = false;
+            
+        var yellSpawnCount = Random.Range(1, 4);
+        for (var i = 0; i < yellSpawnCount; i++)
+        {
+            var randomYellParticleIndex = Random.Range(0, tempYellParticles.Count);
+            var randomYellParticleSprite = tempYellParticles[randomYellParticleIndex];
+
+            randomYellParticleSprite.enabled = true;
+            StartCoroutine(DisableRandomYell(randomYellParticleSprite));
+
+            tempYellParticles.RemoveAt(randomYellParticleIndex);
+        }
+    }
+
+    private IEnumerator DisableRandomYell(SpriteRenderer thisRandomYell)
+    {
+        yield return new WaitForSeconds(0.5f);
+        thisRandomYell.enabled = false;
     }
 }
